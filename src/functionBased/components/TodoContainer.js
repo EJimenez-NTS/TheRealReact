@@ -1,9 +1,10 @@
-import { Routes, Route, Switch, useRoutes } from "react-router-dom"
-import React, { useState, useEffect } from "react"
+import { useRoutes } from "react-router-dom"
+import React, { useState } from "react"
 import Header from "./Header"
 import InputTodo from "./InputTodo"
 import TodosList from "./TodosList"
-import { v4 as uuidv4 } from "uuid"
+import { v4 as uuidv4 } from "uuid" 
+import Navbar from "./Navbar"
 
 
 const TodoContainer = () => {
@@ -58,20 +59,35 @@ const TodoContainer = () => {
     return savedTodos || []
   }
 
+  const App = () => {
+    let routes = useRoutes([
+      {
+        path: "/", element:
+          <>
+            <div className="container">
+              <div className="inner">
+                <Header />
+                <InputTodo addTodoProps={addTodoItem} />
+                <TodosList
+                  todos={todos}
+                  handleChangeProps={handleChange}
+                  deleteTodoProps={delTodo}
+                  setUpdate={setUpdate}
+                />
+              </div>
+            </div>
+          </>
+      }
+      // ...
+    ]);
+    return routes;
+  };
 
   return (
-    <div className="container">
-      <div className="inner">
-        <Header />
-        <InputTodo addTodoProps={addTodoItem} />
-        <TodosList
-          todos={todos}
-          handleChangeProps={handleChange}
-          deleteTodoProps={delTodo}
-          setUpdate={setUpdate}
-        />
-      </div>
-    </div>
+    <>
+      <Navbar />
+      <App />
+    </>
   )
 }
 
